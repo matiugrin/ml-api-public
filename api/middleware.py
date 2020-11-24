@@ -1,9 +1,14 @@
 # -*- coding: utf-8 -*-
+import redis
+# import settings
+import json
+from uuid import uuid4
+import time
 
 ########################################################################
 # COMPLETAR AQUI: Crear conexion a redis y asignarla a la variable "db".
 ########################################################################
-db = None
+db = redis.Redis(host='redis', port=6379, db=0)
 ########################################################################
 
 
@@ -39,10 +44,21 @@ def model_predict(text_data):
     #       string.
     # Luego utilice rpush de Redis para encolar la tarea.
     #################################################################
-    raise NotImplementedError
+    
+    job_id = str(uuid4())
+
+    # paquete a enviar a traves de la cola de mensajes
+    job_data = {
+        'id': job_id,
+        'text': text_data
+    }
+
     #################################################################
 
-    # Iterar hasta recibir el resultado
+    # lo mandamos a redis
+    db.rpush('service_queue', json.dumps(job_data))
+
+    # Iterar hasta recibir el resultado (del modelo)
     while True:
         #################################################################
         # COMPLETAR AQUI: En cada iteración tenemos que:
@@ -53,7 +69,25 @@ def model_predict(text_data):
         #     3. Si obtuvimos respuesta, extraiga la predicción y el
         #        score para ser devueltos como salida de esta función.
         #################################################################
-        raise NotImplementedError
+        
+        response = db.get(job_id)
+        if response is not None:
+            
+            response = json.loads(response.decode('utf-8'))
+            prediction = response['prediction']
+            score = response['score']
+
+            db.delete(job_id)
+            break
+
+        time.sleep(1)
+
         #################################################################
+
+    print(json.dumps({
+        "text":text_data,
+        "prediction": prediction,
+        "score": score
+    }))
 
     return prediction, score

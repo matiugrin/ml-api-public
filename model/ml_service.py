@@ -10,7 +10,7 @@ from classifier import SentimentClassifier
 # COMPLETAR AQUI: Crear conexion a redis y asignarla a la variable "db".
 ########################################################################
 # como host puedo utilizar el nombre del servicio en lugar de la ip.
-db = redis.Redis(host=settings.REDIS_HOST, port=settings.REDIS_PORT, db=settings.REDIS_DB)
+db = redis.Redis(host='redis', port=6379, db=0)
 ########################################################################
 
 ########################################################################
@@ -106,7 +106,7 @@ def classify_process():
         # lrange de Redis. Almacene los trabajos en la variable "queue".
         ##################################################################
         # para traer desde una cola 10 tareas
-        queue = db.lrange(settings.REDIS_QUEUE, 0, 9)
+        queue = db.lrange('service_queue', 0, 9)
         ##################################################################
 
         # Iteramos por cada trabajo obtenido
@@ -128,8 +128,8 @@ def classify_process():
             job_id = q['id']
             sentiment, score = predict(q['text'])
 
-            response = "{'prediction': sentiment, 'score': score}"
-            db.set(job_id, json.dumps(reponse))
+            response = {'prediction': sentiment, 'score': score}
+            db.set(job_id, json.dumps(response))
             ##############################################################
 
         ##################################################################
@@ -138,9 +138,9 @@ def classify_process():
         # pedir por mas trabajos.
         ##################################################################
 
-        db.ltrim(settings.REDIS_QUEUE, len(queue), -1)
+        db.ltrim('service_queue', len(queue), -1)
 
-        time.sleep(settings.SERVER_SLEEP)
+        time.sleep(2)
         ##################################################################
 
 

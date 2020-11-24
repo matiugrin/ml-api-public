@@ -13,7 +13,7 @@ class TestIntegration(unittest.TestCase):
             'POST',
             'http://0.0.0.0/predict',
             params={'text': self.POS_SENT},
-        )
+        )        
         self.assertEqual(response.status_code, 200)
         data = response.json()
         self.assertEqual(data['success'], True)
