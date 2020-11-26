@@ -44,10 +44,11 @@ def index():
             "score": score,
             "success": True
         }
+
         #################################################################
 
     return render_template('index.html', context=context)
-
+    
 
 @router.route('/feedback', methods=['GET', 'POST'])
 def feedback():
@@ -101,5 +102,5 @@ def predict():
 
         return jsonify(rpse)
 
-    # en lugar de la renderizacion de un html devuelve un json.
+    # en lugar de la renderizacion de un html devuelve un json.    
     return jsonify(rpse), 400

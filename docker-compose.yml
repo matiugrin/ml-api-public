@@ -16,11 +16,11 @@ services:
     volumes:
       - ./feedback:/src/feedback
     tty: true
-    # logging:
-    #   driver: "gelf"
-    #   options:
-    #     gelf-address: "udp://localhost:12201"
-    #     tag: "api-logs"
+    logging:
+      driver: "gelf"
+      options:
+        gelf-address: "udp://localhost:12201"
+        tag: "api-logs"
 
   redis:
     image: redis:5.0.6

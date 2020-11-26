@@ -11,6 +11,10 @@ import time
 db = redis.Redis(host='redis', port=6379, db=0)
 ########################################################################
 
+# def error_log(text):
+#     print(json.dumps({
+#         "text":text
+#     }))
 
 def model_predict(text_data):
     """
