@@ -1,5 +1,14 @@
 # Despliegue de sistemas predictivos
-> Diplodatos 2019
+> Diplodatos 2019 - Matias Ugrin
+
+## Locust
+
+## Graylog
+
+## Dashboard
+
+## Alert Grafana
+
 
 ## Instalar y ejecutar
 
