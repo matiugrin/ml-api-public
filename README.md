@@ -2,13 +2,16 @@
 > Diplodatos 2019 - Matias Ugrin
 
 ## Locust
+![Captura Locust](/assets/locust.png)
 
 ## Graylog
+![Captura Graylog](/assets/graylog.png)
 
 ## Dashboard
+![Captura Dashboard](/assets/dashboard.png)
 
 ## Alert Grafana
-
+![Captura Alerta Grafana](/assets/alertagrafana.png)
 
 ## Instalar y ejecutar
 
